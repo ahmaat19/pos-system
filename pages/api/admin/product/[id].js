@@ -4,7 +4,6 @@ import { isAdmin, isAuth } from '../../../../utils/auth'
 import fileUpload from 'express-fileupload'
 import { upload, deleteFile } from '../../../../utils/fileManager'
 import Product from '../../../../models/Product'
-import AssignSubject from '../../../../models/AssignSubject'
 export const config = { api: { bodyParser: false } }
 
 const handler = nc()
@@ -14,7 +13,7 @@ handler.use(isAuth, isAdmin)
 handler.put(async (req, res) => {
   await dbConnect()
 
-  const { isActive, category, price, stock, cost } = req.body
+  const { isActive, category, price, unit, stock, cost } = req.body
 
   const name = req.body.name.toLowerCase()
   const _id = req.query.id
@@ -44,6 +43,7 @@ handler.put(async (req, res) => {
         obj.category = category
         obj.price = price
         obj.cost = cost
+        obj.unit = unit
         obj.stock = stock
         obj.name = name
 
@@ -59,6 +59,7 @@ handler.put(async (req, res) => {
         obj.category = category
         obj.price = price
         obj.cost = cost
+        obj.unit = unit
         obj.stock = stock
         obj.name = name
         await obj.save()

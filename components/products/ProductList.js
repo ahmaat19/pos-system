@@ -1,8 +1,14 @@
 import React from 'react'
 import Image from 'next/image'
-import { FaCartPlus, FaMinus, FaPlus } from 'react-icons/fa'
+import { FaCartPlus, FaPlus, FaTrashAlt } from 'react-icons/fa'
 
-const ProductList = ({ products, activeCategory, cart }) => {
+const ProductList = ({
+  products,
+  activeCategory,
+  cart,
+  cartItems,
+  removeFromCart,
+}) => {
   return (
     <div className='table-responsive'>
       <table className='table table-sm'>
@@ -25,34 +31,47 @@ const ProductList = ({ products, activeCategory, cart }) => {
           {products &&
             products.map(
               (product) =>
-                product.category === activeCategory && (
+                product.category &&
+                product.category._id === activeCategory && (
                   <tr key={product._id}>
                     <th>
-                      <Image
-                        width='35'
-                        height='35'
-                        priority
-                        src={product.image}
-                        alt={product.image}
-                        className='img-fluid rounded-pill'
-                      />
+                      {product.picture && (
+                        <Image
+                          width='35'
+                          height='35'
+                          priority
+                          src={product.picture && product.picture.picturePath}
+                          alt={product.picture && product.picture.pictureName}
+                          className='img-fluid rounded-pill'
+                        />
+                      )}
                     </th>
-                    <td>{product.item}</td>
+                    <td>{product.name}</td>
                     <td>{product.unit}</td>
                     <td>${product.price}</td>
                     <td>{product.stock}</td>
                     <td>
                       {product.stock > 0 && (
                         <>
-                          {/* <button  onClick={() => cart(product)} className='btn btn-primary btn-sm rounded-pill me-1'>
-                            <FaMinus className='mb-1' />
-                          </button> */}
                           <button
                             onClick={() => cart(product)}
-                            className='btn btn-primary btn-sm rounded-pill'
+                            className='btn btn-primary btn-sm rounded-pill me-1'
                           >
                             <FaPlus className='mb-1' />
                           </button>
+                          {cartItems &&
+                            cartItems.map(
+                              (cart) =>
+                                cart.product === product._id && (
+                                  <button
+                                    key={cart.product}
+                                    onClick={() => removeFromCart(product)}
+                                    className='btn btn-danger btn-sm rounded-pill '
+                                  >
+                                    <FaTrashAlt className='mb-1' />
+                                  </button>
+                                )
+                            )}
                         </>
                       )}
                     </td>

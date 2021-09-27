@@ -23,7 +23,7 @@ handler.get(async (req, res) => {
 handler.use(isAdmin)
 handler.post(async (req, res) => {
   await dbConnect()
-  const { isActive, category, price, stock, cost } = req.body
+  const { isActive, category, price, unit, stock, cost } = req.body
 
   const name = req.body.name.toLowerCase()
   const picture = req.files && req.files.picture
@@ -44,6 +44,7 @@ handler.post(async (req, res) => {
         isActive,
         category,
         price,
+        unit,
         stock,
         cost,
         name,
@@ -65,6 +66,7 @@ handler.post(async (req, res) => {
       category,
       price,
       stock,
+      unit,
       cost,
       name,
     })

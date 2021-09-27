@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Customer from '../products/Customer'
-import { FaMoneyBillAlt, FaPlus, FaTimesCircle, FaUsers } from 'react-icons/fa'
+import { FaMoneyBillAlt, FaTimesCircle, FaUsers } from 'react-icons/fa'
 
 const Cart = ({
   cartItems,
@@ -12,6 +12,9 @@ const Cart = ({
   errors,
   register,
   setCartItems,
+  selectedCustomer,
+  setSelectedCustomer,
+  isLoadingAdd,
 }) => {
   const subTotal =
     cartItems &&
@@ -20,47 +23,52 @@ const Cart = ({
 
   return (
     <div className='border border-top-0 border-end-0 border-bottom-0 border-light px-2'>
-      <div className='d-flex justify-content-between'>
+      <div className='d-flex justify-content-end'>
         <button
+          disabled={cartItems && cartItems.length === 0}
           className='btn btn-primary btn-sm'
           data-bs-toggle='modal'
           data-bs-target='#homeCustomerModal'
         >
           <FaUsers className='mb-1' /> Customers
         </button>
-        <button className='btn btn-primary btn-sm'>
-          <FaPlus className='mb-1' /> New
-        </button>
       </div>
       <hr />
 
-      <Customer />
+      <Customer setSelectedCustomer={setSelectedCustomer} />
 
       <form onSubmit={handleSubmit(submitHandler)}>
         <div className='card'>
           <ul className='list-group list-group-flush'>
+            <li className='list-group-item bg-primary text-light text-center'>
+              {selectedCustomer
+                ? selectedCustomer.name.toUpperCase()
+                : 'Please select a customer'}
+            </li>
             {cartItems &&
               cartItems.length > 0 &&
               cartItems.map((item) => (
-                <li key={item._id} className='list-group-item'>
+                <li key={item.product} className='list-group-item mt-1'>
                   <div className='d-flex justify-content-between'>
                     <button
                       type='button'
                       className='btn position-relative bg-transparent shadow-sm py-0 px-1 rounded-3'
                     >
-                      <Image
-                        width='35'
-                        height='35'
-                        priority
-                        src={item.image}
-                        alt={item.image}
-                        className='img-fluid rounded-pill my-auto '
-                      />
+                      {item.picture && (
+                        <Image
+                          width='35'
+                          height='35'
+                          priority
+                          src={item.picture && item.picture.picturePath}
+                          alt={item.picture && item.picture.pictureName}
+                          className='img-fluid rounded-pill my-auto '
+                        />
+                      )}
                       <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill'>
                         x{item.qty}{' '}
                       </span>
                     </button>
-                    <div className='text-center'>{item.item}</div>
+                    <div className='text-center'>{item.name}</div>
                     <span className='text-primary fw-bold'>
                       ${(Number(item.price) * Number(item.qty)).toFixed(2)}
                     </span>
@@ -109,12 +117,23 @@ const Cart = ({
                   <span> ${(subTotal - Number(discount)).toFixed(2)}</span>
                 </div>
               </div>
-              <button className='btn btn-primary form-control mt'>
-                <FaMoneyBillAlt className='mb-1' /> PURCHASE
+              <button
+                disabled={isLoadingAdd}
+                className='btn btn-primary form-control mt'
+              >
+                {isLoadingAdd ? (
+                  <span className='spinner-border spinner-border-sm' />
+                ) : (
+                  <>
+                    <FaMoneyBillAlt className='mb-1' /> PURCHASE
+                  </>
+                )}
               </button>
               <button
                 className='btn btn-outline-danger form-control mt-1'
-                onClick={() => setCartItems([])}
+                onClick={() => {
+                  setCartItems([]), setSelectedCustomer('')
+                }}
               >
                 <FaTimesCircle className='mb-1' /> CLEAN CART
               </button>

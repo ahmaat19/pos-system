@@ -98,6 +98,7 @@ main {
   color: var(--primary-color) !important;
 }
 
-.badge {
+.badge,
+.card .bg-primary {
   background-color: var(--primary-color) !important;
 }

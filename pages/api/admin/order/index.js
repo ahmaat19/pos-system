@@ -17,13 +17,19 @@ handler.use(isAuth)
 handler.post(async (req, res) => {
   await dbConnect()
 
-  const { isActive, customer, totalPrice, status, orderItems } = req.body
+  const { customer, status, cartItems: orderItems } = req.body
 
   if (orderItems && orderItems.length < 1) {
     return res.status(400).send('Please add items on the cart')
   }
+
+  const totalPrice =
+    orderItems &&
+    orderItems.length > 0 &&
+    orderItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)
+
   const createObj = await Order.create({
-    isActive,
+    isActive: true,
     customer,
     totalPrice,
     status,

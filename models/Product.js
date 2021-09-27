@@ -7,6 +7,7 @@ const productScheme = mongoose.Schema(
     price: { type: Number, default: 0 },
     cost: { type: Number, default: 0 },
     stock: { type: Number, default: 0 },
+    unit: { type: String, required: true },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: Category,

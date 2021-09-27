@@ -5,7 +5,7 @@ import Product from './Product'
 
 const orderScheme = mongoose.Schema(
   {
-    Customer: {
+    customer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: Customer,
       required: true,
@@ -39,6 +39,10 @@ const orderScheme = mongoose.Schema(
           required: true,
         },
         price: {
+          type: Number,
+          required: true,
+        },
+        cost: {
           type: Number,
           required: true,
         },
