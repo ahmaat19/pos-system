@@ -2,12 +2,10 @@ import React from 'react'
 import Image from 'next/image'
 import Customer from '../products/Customer'
 import { FaMoneyBillAlt, FaTimesCircle, FaUsers } from 'react-icons/fa'
-import { inputNumber } from '../../utils/dynamicForm'
 
 const Cart = ({
   cartItems,
-  setDiscount,
-  discount,
+  watch,
   handleSubmit,
   submitHandler,
   errors,
@@ -79,18 +77,33 @@ const Cart = ({
             {subTotal && subTotal.length > 0 && (
               <>
                 <li className='list-group-item'>
-                  <div className='d-flex justify-content-between fw-bold'>
-                    <span>Subtotal</span> <span> ${subTotal}</span>
+                  <div className='fw-bold d-flex justify-content-between'>
+                    <h6>Subtotal</h6> <h6> ${Number(subTotal)}</h6>
+                  </div>
+                  <div className='fw-bold d-flex justify-content-between'>
+                    <h6>Discount</h6>{' '}
+                    <h6> ${watch().discount ? watch().discount : 0}</h6>
+                  </div>
+                  <div className='d-flex justify-content-between fw-bold text-danger'>
+                    <h6>Due</h6>{' '}
+                    <h6>
+                      $
+                      {(
+                        Number(subTotal) -
+                        Number(watch().discount) -
+                        Number(watch().paidAmount)
+                      ).toFixed(2)}
+                    </h6>
                   </div>
                 </li>
                 <li className='list-group-item'>
                   <div className='input-group'>
                     <input
                       type='number'
-                      className='form-control'
+                      className='form-control bg-light'
                       placeholder={`discount (${subTotal})`}
                       step='0.01'
-                      max={subTotal}
+                      max={Number(subTotal)}
                       {...register('discount', { required: 'required!' })}
                       required
                     />
@@ -103,7 +116,7 @@ const Cart = ({
                       type='number'
                       max={subTotal}
                       {...register('paidAmount', { required: 'required!' })}
-                      className='form-control'
+                      className='form-control bg-light'
                       placeholder={`paidAmount (0)`}
                       step='0.01'
                       required
@@ -120,12 +133,6 @@ const Cart = ({
           </ul>
           {subTotal && subTotal.length > 0 && (
             <>
-              <div className='card-footer'>
-                <div className='d-flex justify-content-between fw-bold'>
-                  <span>Total</span>{' '}
-                  <span> ${(subTotal - Number(discount)).toFixed(2)}</span>
-                </div>
-              </div>
               <button
                 disabled={isLoadingAdd}
                 className='btn btn-primary form-control mt'

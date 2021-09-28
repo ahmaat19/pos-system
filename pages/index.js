@@ -15,6 +15,7 @@ function Home() {
   const {
     register,
     handleSubmit,
+    watch,
     reset,
     formState: { errors },
   } = useForm()
@@ -194,6 +195,7 @@ function Home() {
             submitHandler={submitHandler}
             handleSubmit={handleSubmit}
             register={register}
+            watch={watch}
             errors={errors}
             setCartItems={setCartItems}
             selectedCustomer={selectedCustomer}

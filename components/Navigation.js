@@ -153,7 +153,7 @@ const Navigation = () => {
   return (
     <nav className='navbar navbar-expand-sm navbar-light shadow-lg'>
       <div className='container'>
-        <span className='navbar-brand'>
+        {/* <span className='navbar-brand'>
           {userInfo && (
             <FaBars
               className='mb-1 me-3'
@@ -162,10 +162,10 @@ const Navigation = () => {
               aria-controls='offcanvasWithBackdrop'
             />
           )}
-        </span>
+        </span> */}
 
         <Link href='/'>
-          <a className='navbar-brand'>NEXT.js</a>
+          <a className='navbar-brand'>POS</a>
         </Link>
 
         <button
