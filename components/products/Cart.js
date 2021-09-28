@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import Customer from '../products/Customer'
 import { FaMoneyBillAlt, FaTimesCircle, FaUsers } from 'react-icons/fa'
+import { inputNumber } from '../../utils/dynamicForm'
 
 const Cart = ({
   cartItems,
@@ -83,25 +84,33 @@ const Cart = ({
                   </div>
                 </li>
                 <li className='list-group-item'>
-                  <div className='mb-1'>
+                  <div className='input-group'>
                     <input
                       type='number'
-                      {...register('discount', {
-                        maxLength: {
-                          value: subTotal,
-                          message: `Value must be less than or equal to ${subTotal}`,
-                        },
-                      })}
+                      className='form-control'
+                      placeholder={`discount (${subTotal})`}
                       step='0.01'
                       max={subTotal}
-                      onChange={(e) => setDiscount(e.target.value)}
-                      value={discount}
-                      placeholder='Discount'
-                      className='form-control form-control-sm bg-light'
+                      {...register('discount', { required: 'required!' })}
+                      required
                     />
                     {errors && errors.discount && (
                       <span className='text-danger'>
                         {errors.discount.message}
+                      </span>
+                    )}
+                    <input
+                      type='number'
+                      max={subTotal}
+                      {...register('paidAmount', { required: 'required!' })}
+                      className='form-control'
+                      placeholder={`paidAmount (0)`}
+                      step='0.01'
+                      required
+                    />
+                    {errors && errors.paidAmount && (
+                      <span className='text-danger'>
+                        {errors.paidAmount.message}
                       </span>
                     )}
                   </div>
@@ -125,7 +134,7 @@ const Cart = ({
                   <span className='spinner-border spinner-border-sm' />
                 ) : (
                   <>
-                    <FaMoneyBillAlt className='mb-1' /> PURCHASE
+                    <FaMoneyBillAlt className='mb-1' /> SEND ORDER
                   </>
                 )}
               </button>
@@ -135,7 +144,7 @@ const Cart = ({
                   setCartItems([]), setSelectedCustomer('')
                 }}
               >
-                <FaTimesCircle className='mb-1' /> CLEAN CART
+                <FaTimesCircle className='mb-1' /> CANCEL ORDER
               </button>
             </>
           )}

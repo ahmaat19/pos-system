@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic'
 import withAuth from '../HOC/withAuth'
 import { ProductList, Category, Cart } from '../components/products'
 import { useState } from 'react'
-import { products } from '../components/products/boilerplate-seeds'
 import { useForm } from 'react-hook-form'
 import { addOrder } from '../api/order'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
@@ -59,6 +58,7 @@ function Home() {
       setCartItems([])
       setSelectedCustomer('')
       queryClient.invalidateQueries(['orders'])
+      queryClient.invalidateQueries(['products'])
     },
   })
 
@@ -126,13 +126,12 @@ function Home() {
   }
 
   const submitHandler = async (data) => {
-    if (selectedCustomer) {
-      addMutateAsync({
-        discount: data.discount,
-        cartItems,
-        customer: selectedCustomer._id,
-      })
-    }
+    addMutateAsync({
+      discount: data.discount,
+      paidAmount: data.paidAmount,
+      cartItems,
+      customer: selectedCustomer._id,
+    })
   }
 
   return (

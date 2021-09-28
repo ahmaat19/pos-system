@@ -14,9 +14,13 @@ const orderScheme = mongoose.Schema(
       type: Number,
       default: 0.0,
     },
-    status: {
+    discount: {
       type: Number,
-      default: 0,
+      default: 0.0,
+    },
+    paidAmount: {
+      type: Number,
+      default: 0.0,
     },
     orderItems: [
       {
