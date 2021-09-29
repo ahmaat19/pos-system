@@ -23,6 +23,7 @@ handler.get(async (req, res) => {
     .limit(pageSize)
     .sort({ createdAt: -1 })
     .populate('customer', ['name', 'mobile'])
+    .populate('orderItems.product', 'picture')
 
   const result = await query
 

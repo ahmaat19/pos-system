@@ -1,6 +1,7 @@
 import nc from 'next-connect'
 import dbConnect from '../../../../utils/db'
 import Order from '../../../../models/Order'
+import Product from '../../../../models/Product'
 import { isAuth } from '../../../../utils/auth'
 
 const handler = nc()
@@ -9,25 +10,25 @@ handler.use(isAuth)
 handler.put(async (req, res) => {
   await dbConnect()
 
-  const { isActive, customer, totalPrice, status, orderItems } = req.body
+  const { paidAmount, discount } = req.body
   const _id = req.query.id
 
   const obj = await Order.findById(_id)
 
-  if (obj) {
-    if (orderItems && orderItems.length > 0) {
-      obj.name = name
-      obj.customer = customer
-      obj.isActive = isActive
-      obj.totalPrice = totalPrice
-      obj.status = status
-      obj.orderItems = orderItems
-      await obj.save()
+  if (Number(paidAmount) + Number(discount) > Number(obj.totalPrice)) {
+    return res
+      .status(400)
+      .send(
+        `amount + discount should be less than or equal to $${obj.totalPrice}`
+      )
+  }
 
-      res.json({ status: 'success' })
-    } else {
-      return res.status(400).send(`Please, add items on cart`)
-    }
+  if (obj) {
+    obj.paidAmount = paidAmount
+    obj.discount = discount
+    await obj.save()
+
+    res.json({ status: 'success' })
   } else {
     return res.status(404).send('Order not found')
   }
@@ -41,6 +42,48 @@ handler.delete(async (req, res) => {
   if (!obj) {
     return res.status(404).send('Order not found')
   } else {
+    const orderItems = obj.orderItems
+
+    const products = await Product.find({
+      _id: orderItems.map((o) => o.product),
+    })
+
+    const quantityMap = orderItems.reduce(
+      (quantities, { product, qty }) => ({
+        ...quantities,
+        [product]: qty || 0,
+      }),
+      {}
+    )
+
+    const newProducts = products.map((product) => ({
+      ...product,
+      stock: Number(product.stock) + (quantityMap[product._id] || 0),
+    }))
+
+    if (newProducts.length > 0) {
+      for (let i = 0; i < newProducts.length; i++) {
+        const { _id, picture, price, cost, isActive, name, category, unit } =
+          newProducts[i]._doc
+        const newObj = {
+          _id,
+          picture,
+          price,
+          cost,
+          stock: newProducts[i].stock,
+          isActive,
+          name,
+          category,
+          unit,
+        }
+        await Product.findOneAndUpdate(
+          { _id: newProducts[i]._doc._id },
+          { $set: newObj },
+          { useFindAndModify: false }
+        )
+      }
+    }
+
     await obj.remove()
 
     res.json({ status: 'success' })
