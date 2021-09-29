@@ -9,12 +9,12 @@ const handler = nc()
 handler.use(isAuth)
 handler.get(async (req, res) => {
   await dbConnect()
-  let query = Order.find()
+  let query = Order.find({ isDeleted: false })
 
   const page = parseInt(req.query.page) || 1
   const pageSize = parseInt(req.query.limit) || 50
   const skip = (page - 1) * pageSize
-  const total = await Order.countDocuments()
+  const total = await Order.countDocuments({ isDeleted: false })
 
   const pages = Math.ceil(total / pageSize)
 
@@ -48,6 +48,8 @@ handler.post(async (req, res) => {
 
     cartItems: orderItems,
   } = req.body
+
+  const createdBy = req.user.id
 
   if (orderItems && orderItems.length < 1) {
     return res.status(400).send('Please add items on the cart')
@@ -111,6 +113,7 @@ handler.post(async (req, res) => {
     paidAmount,
     totalPrice,
     orderItems,
+    createdBy,
   })
 
   if (createObj) {

@@ -2,9 +2,18 @@ import mongoose from 'mongoose'
 import Category from './Category'
 import Customer from './Customer'
 import Product from './Product'
+import User from './User'
 
 const orderScheme = mongoose.Schema(
   {
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: User,
+      required: true,
+    },
+    updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: User },
+    deletedBy: { type: mongoose.Schema.Types.ObjectId, ref: User },
+    isDeleted: { type: Boolean, default: false },
     customer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: Customer,

@@ -12,6 +12,7 @@ handler.put(async (req, res) => {
 
   const { paidAmount, discount } = req.body
   const _id = req.query.id
+  const updatedBy = req.user.id
 
   const obj = await Order.findById(_id)
 
@@ -25,6 +26,7 @@ handler.put(async (req, res) => {
 
   if (obj) {
     obj.paidAmount = paidAmount
+    obj.updatedBy = updatedBy
     obj.discount = discount
     await obj.save()
 
@@ -38,6 +40,7 @@ handler.delete(async (req, res) => {
   await dbConnect()
 
   const _id = req.query.id
+
   const obj = await Order.findById(_id)
   if (!obj) {
     return res.status(404).send('Order not found')
@@ -84,7 +87,8 @@ handler.delete(async (req, res) => {
       }
     }
 
-    await obj.remove()
+    obj.isDeleted = true
+    await obj.save()
 
     res.json({ status: 'success' })
   }
