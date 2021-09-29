@@ -13,16 +13,18 @@ const SalesItem = () => {
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
 
-  const { isLoading, isError, error, isSuccess, mutateAsync, data } =
-    useMutation(['search-sales-by-item'], searchSalesByItem, {
+  const { isLoading, isError, error, mutateAsync, data } = useMutation(
+    ['search-sales-by-item'],
+    searchSalesByItem,
+    {
       retry: 0,
       onSuccess: () => {},
-    })
+    }
+  )
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log({ startDate, endDate })
-    // mutateAsync(e)
+    mutateAsync({ startDate, endDate })
   }
 
   return (
@@ -68,7 +70,7 @@ const SalesItem = () => {
         <>
           <div className='table-responsive '>
             <table className='table table-sm hover bordered striped caption-top '>
-              <caption>{data ? data.total : 0} records were found</caption>
+              <caption>{data ? data.length : 0} records were found</caption>
               <thead>
                 <tr>
                   <th>ITEM</th>
@@ -80,11 +82,14 @@ const SalesItem = () => {
               </thead>
               <tbody>
                 {data &&
-                  data.orderItems.map((order) => (
+                  data.length > 0 &&
+                  data.map((order) => (
                     <tr key={order._id}>
                       <td>{order.name}</td>
                       <td>{order.qty}</td>
-                      <td>${order.price.toFixed(2)}</td>
+                      <td>
+                        ${(Number(order.price) * Number(order.qty)).toFixed(2)}
+                      </td>
 
                       <td className='btn-group'>
                         <Link href='/test'>
