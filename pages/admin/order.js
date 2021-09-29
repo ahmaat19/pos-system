@@ -358,6 +358,10 @@ const Orders = () => {
                 <>
                   <div className='card' ref={componentRef}>
                     <ul className='list-group list-group-flush'>
+                      <li className='list-group-item mt-1 text-center'>
+                        <span className='fw-bold'>INVOICE ID: </span>
+                        {cartItems && cartItems._id}
+                      </li>
                       {cartItems.orderItems &&
                         cartItems.orderItems.length > 0 &&
                         cartItems.orderItems.map((item) => (
