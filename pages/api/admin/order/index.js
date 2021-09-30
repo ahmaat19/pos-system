@@ -106,13 +106,24 @@ handler.post(async (req, res) => {
       .status(400)
       .send(`amount + discount should be less than or equal to $${totalPrice}`)
 
+  const custom = orderItems.map((o) => ({
+    product: o.product,
+    name: o.name,
+    category: o.category,
+    qty: o.qty,
+    price: o.price,
+    cost: o.cost,
+    customer: customer,
+    createdAt: Date.now(),
+  }))
+
   const createObj = await Order.create({
     isActive: true,
     customer,
     discount,
     paidAmount,
     totalPrice,
-    orderItems,
+    orderItems: custom,
     createdBy,
   })
 

@@ -22,14 +22,16 @@ handler.post(async (req, res) => {
   const result = orders && orders.length > 0 && orders.map((d) => d.orderItems)
 
   let salesArray = []
-  result.map((sale) => salesArray.push(...sale))
+  result && result.length > 0 && result.map((sale) => salesArray.push(...sale))
 
   let newResult = []
-  salesArray.forEach((e) => {
-    let el = newResult.find((n) => n.name === e.name)
-    if (el) el.qty += e.qty
-    else newResult.push(e)
-  })
+  salesArray &&
+    salesArray.length > 0 &&
+    salesArray.forEach((e) => {
+      let el = newResult.find((n) => n.name === e.name)
+      if (el) el.qty += e.qty
+      else newResult.push(e)
+    })
 
   res.status(200).json(newResult)
 })

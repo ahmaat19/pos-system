@@ -59,6 +59,12 @@ const orderScheme = mongoose.Schema(
           type: Number,
           required: true,
         },
+        customer: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: Customer,
+          required: true,
+        },
+        createdAt: { type: Date, default: Date.now() },
       },
     ],
     isActive: { type: Boolean, default: true },

@@ -2,24 +2,24 @@ import { useState } from 'react'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import withAuth from '../../../HOC/withAuth'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import {
-  searchSalesByItem,
-  searchSalesByItemDetails,
-} from '../../../api/sales-report'
+  searchCustomersByItem,
+  searchCustomersByItemDetails,
+} from '../../../api/customer-report'
 import Loader from 'react-loader-spinner'
 import Message from '../../../components/Message'
 import { FaInfoCircle } from 'react-icons/fa'
 import moment from 'moment'
 
-const SalesItem = () => {
+const CustomerBalance = () => {
   const [startDate, setStartDate] = useState(Date.now())
   const [endDate, setEndDate] = useState(Date.now())
   // const [product, setProduct] = useState('')
 
-  const { isLoading, isError, error, mutateAsync, data } = useMutation(
-    ['search-sales-by-item'],
-    searchSalesByItem,
+  const { isLoading, isError, error, mutateAsync, data } = useQuery(
+    ['customer-balance'],
+    searchCustomersByItem,
     {
       retry: 0,
       onSuccess: () => {},
@@ -27,7 +27,7 @@ const SalesItem = () => {
   )
 
   const { mutateAsync: mutateAsyncItemDetails, data: dataItemDetails } =
-    useMutation(['search-sales-by-item-details'], searchSalesByItemDetails, {
+    useMutation(['customer-balance-details'], searchCustomersByItemDetails, {
       retry: 0,
       onSuccess: () => {},
     })
@@ -52,13 +52,21 @@ const SalesItem = () => {
     dataItemDetails.length > 0 &&
     dataItemDetails.reduce((acc, curr) => acc + Number(curr.qty), 0)
 
+  const totalPriceDetails =
+    dataItemDetails &&
+    dataItemDetails.length > 0 &&
+    dataItemDetails.reduce(
+      (acc, curr) => acc + Number(curr.price) * Number(curr.qty),
+      0
+    )
+
   return (
     <div>
       <Head>
-        <title>Sales by item summary report</title>
+        <title>Customers by item summary report</title>
         <meta
           property='og:title'
-          content='Sales by item summary report'
+          content='Customers by item summary report'
           key='title'
         />
       </Head>{' '}
@@ -98,7 +106,8 @@ const SalesItem = () => {
               <caption>{data ? data.length : 0} records were found</caption>
               <thead>
                 <tr>
-                  <th>ITEM</th>
+                  <th>CUSTOMER</th>
+                  <th>MOBILE</th>
                   <th>QUANTITY</th>
                   <th>AMOUNT</th>
                   <th>DETAILS</th>
@@ -109,11 +118,10 @@ const SalesItem = () => {
                   data.length > 0 &&
                   data.map((order) => (
                     <tr key={order._id}>
-                      <td>{order.name}</td>
+                      <td>{order.customer && order.customer.name}</td>
+                      <td>{order.customer && order.customer.mobile}</td>
                       <td>{order.qty}</td>
-                      <td>
-                        ${(Number(order.price) * Number(order.qty)).toFixed(2)}
-                      </td>
+                      <td>${Number(order.price).toFixed(2)}</td>
 
                       <td className='btn-group'>
                         <button
@@ -122,9 +130,7 @@ const SalesItem = () => {
                           data-bs-target='#itemDetailsModal'
                           onClick={() =>
                             mutateAsyncItemDetails({
-                              startDate,
-                              endDate,
-                              product: order.product,
+                              customer: order.customer && order.customer._id,
                             })
                           }
                         >
@@ -137,10 +143,10 @@ const SalesItem = () => {
               {data && data.length > 0 && (
                 <tfoot>
                   <tr>
-                    <th>TOTAL</th>
+                    <th colSpan='2'>TOTAL</th>
                     <th>{Number(totalQty).toFixed(2)}</th>
                     <th className='text-decoration'>
-                      ${(Number(totalPrice) * Number(totalQty)).toFixed(2)}
+                      ${Number(totalPrice).toFixed(2)}
                     </th>
                   </tr>
                 </tfoot>
@@ -209,9 +215,7 @@ const SalesItem = () => {
                             <th colSpan='3'> TOTAL</th>
                             <th>{Number(totalQtyDetails).toFixed(2)}</th>
                             <th className='text-decoration'>
-                              $
-                              {Number(dataItemDetails[0].price) *
-                                Number(totalQtyDetails).toFixed(2)}
+                              ${Number(totalPriceDetails).toFixed(2)}
                             </th>
                           </tr>
                         </tfoot>
@@ -228,6 +232,6 @@ const SalesItem = () => {
   )
 }
 
-export default dynamic(() => Promise.resolve(withAuth(SalesItem)), {
+export default dynamic(() => Promise.resolve(withAuth(CustomerBalance)), {
   ssr: false,
 })
