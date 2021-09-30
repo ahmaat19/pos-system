@@ -115,6 +115,7 @@ handler.post(async (req, res) => {
     cost: o.cost,
     customer: customer,
     createdAt: Date.now(),
+    createdBy: createdBy,
   }))
 
   const createObj = await Order.create({

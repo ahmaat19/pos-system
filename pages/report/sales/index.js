@@ -11,8 +11,8 @@ const Sales = () => {
       path: 'sales-by-item-summary',
     },
     {
-      name: 'Sales by customer summary',
-      path: 'sales-by-customer-summary',
+      name: 'Sales by user summary',
+      path: 'sales-by-user-summary',
     },
   ]
   return (

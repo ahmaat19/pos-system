@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import withAuth from '../../../HOC/withAuth'
@@ -13,11 +12,7 @@ import { FaInfoCircle } from 'react-icons/fa'
 import moment from 'moment'
 
 const CustomerBalance = () => {
-  const [startDate, setStartDate] = useState(Date.now())
-  const [endDate, setEndDate] = useState(Date.now())
-  // const [product, setProduct] = useState('')
-
-  const { isLoading, isError, error, mutateAsync, data } = useQuery(
+  const { isLoading, isError, error, data } = useQuery(
     ['customer-balance'],
     searchCustomersByItem,
     {
@@ -31,11 +26,6 @@ const CustomerBalance = () => {
       retry: 0,
       onSuccess: () => {},
     })
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    mutateAsync({ startDate, endDate })
-  }
 
   const totalQty =
     data &&
@@ -70,23 +60,6 @@ const CustomerBalance = () => {
           key='title'
         />
       </Head>{' '}
-      <form onSubmit={handleSubmit}>
-        <div className='input-group'>
-          <input
-            type='date'
-            onChange={(e) => setStartDate(e.target.value)}
-            value={startDate}
-            className='form-control me-1'
-          />
-          <input
-            type='date'
-            onChange={(e) => setEndDate(e.target.value)}
-            value={endDate}
-            className='form-control'
-          />
-          <button className='btn btn-primary ms-1'>Search</button>
-        </div>
-      </form>
       {isLoading ? (
         <div className='text-center'>
           <Loader
