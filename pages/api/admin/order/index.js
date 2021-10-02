@@ -50,6 +50,7 @@ handler.post(async (req, res) => {
   } = req.body
 
   const createdBy = req.user.id
+  const invoice = await Order.countDocuments({})
 
   if (orderItems && orderItems.length < 1) {
     return res.status(400).send('Please add items on the cart')
@@ -112,6 +113,20 @@ handler.post(async (req, res) => {
     orderItems &&
     orderItems.length > 0 &&
     orderItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)
+  console.log(orderItems)
+  const due =
+    orderItems &&
+    orderItems.length > 0 &&
+    orderItems
+      .reduce(
+        (acc, item) =>
+          acc +
+          Number(item.qty) * Number(item.price) -
+          Number(discount) -
+          Number(paidAmount),
+        0
+      )
+      .toFixed(2)
 
   if (!customer) return res.status(400).send('Please select a customer')
   if (totalPrice < Number(discount) + Number(paidAmount))
@@ -134,10 +149,12 @@ handler.post(async (req, res) => {
 
   const createObj = await Order.create({
     isActive: true,
+    invoice: Number(invoice) + 1,
     customer,
     discount,
     paidAmount,
     totalPrice,
+    due,
     orderItems: custom,
     createdBy,
   })

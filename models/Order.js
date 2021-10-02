@@ -23,6 +23,10 @@ const orderScheme = mongoose.Schema(
       type: Number,
       default: 0.0,
     },
+    due: {
+      type: Number,
+      default: 0.0,
+    },
     discount: {
       type: Number,
       default: 0.0,
@@ -31,6 +35,7 @@ const orderScheme = mongoose.Schema(
       type: Number,
       default: 0.0,
     },
+    invoice: { type: Number, required: true },
     orderItems: [
       {
         product: {
