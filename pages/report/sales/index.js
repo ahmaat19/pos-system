@@ -14,6 +14,14 @@ const Sales = () => {
       name: 'Sales by user summary',
       path: 'sales-by-user-summary',
     },
+    {
+      name: 'Sales by seller',
+      path: 'sales-by-seller',
+    },
+    {
+      name: 'Sales by single seller',
+      path: 'sales-by-single-seller',
+    },
   ]
   return (
     <div className='row g-1 mb-2'>

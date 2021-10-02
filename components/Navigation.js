@@ -6,7 +6,6 @@ import {
   FaSignInAlt,
   FaUserPlus,
   FaPowerOff,
-  FaBars,
   FaChartBar,
 } from 'react-icons/fa'
 import { logout } from '../api/users'

@@ -8,6 +8,9 @@ const url = '/api/admin/users'
 export const getUsers = async (page) =>
   await dynamicAPI('get', `${url}?page=${page}`, {})
 
+export const getAllUsers = async () =>
+  await dynamicAPI('get', `${url}/all-users`, {})
+
 export const getUsersLog = async (page) =>
   await dynamicAPI('get', `${url}/logon?page=${page}`, {})
 
