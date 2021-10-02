@@ -479,7 +479,7 @@ const Orders = () => {
       ) : (
         <>
           <div className='table-responsive '>
-            <table className='table table-sm hover bordered striped caption-top '>
+            <table className='table table-striped table-hover caption-top table-sm '>
               <caption>{data && data.total} records were found</caption>
               <thead>
                 <tr>

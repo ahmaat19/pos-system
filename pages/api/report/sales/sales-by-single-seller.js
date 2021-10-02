@@ -10,8 +10,6 @@ handler.use(isAuth)
 handler.post(async (req, res) => {
   await dbConnect()
 
-  console.log('---------------------------------')
-
   const seller = req.user.id
   const { startDate, endDate } = req.body
 

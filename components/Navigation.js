@@ -31,6 +31,12 @@ const Navigation = () => {
         )
       : null
 
+  const readyRouters =
+    customLocalStorage() &&
+    customLocalStorage().userAccessRoutes &&
+    customLocalStorage().userAccessRoutes.route &&
+    customLocalStorage().userAccessRoutes.route
+
   const guestItems = () => {
     return (
       <>
@@ -58,10 +64,8 @@ const Navigation = () => {
     return (
       <>
         <ul className='navbar-nav me-auto'>
-          {customLocalStorage() &&
-            customLocalStorage().userAccessRoutes &&
-            customLocalStorage().userAccessRoutes.route &&
-            customLocalStorage().userAccessRoutes.route.map(
+          {readyRouters &&
+            readyRouters.map(
               (route) =>
                 route.isActive &&
                 route.menu === 'Normal' && (
@@ -92,10 +96,8 @@ const Navigation = () => {
                 className='dropdown-menu border-0'
                 aria-labelledby='navbarDropdownMenuLink'
               >
-                {customLocalStorage() &&
-                  customLocalStorage().userAccessRoutes &&
-                  customLocalStorage().userAccessRoutes.route &&
-                  customLocalStorage().userAccessRoutes.route.map(
+                {readyRouters &&
+                  readyRouters.map(
                     (route) =>
                       route.isActive &&
                       route.menu === 'Report' && (
@@ -126,10 +128,8 @@ const Navigation = () => {
                 className='dropdown-menu border-0'
                 aria-labelledby='navbarDropdownMenuLink'
               >
-                {customLocalStorage() &&
-                  customLocalStorage().userAccessRoutes &&
-                  customLocalStorage().userAccessRoutes.route &&
-                  customLocalStorage().userAccessRoutes.route.map(
+                {readyRouters &&
+                  readyRouters.map(
                     (route) =>
                       route.isActive &&
                       route.menu === 'Admin' && (

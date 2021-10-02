@@ -252,7 +252,7 @@ const Customer = ({ setSelectedCustomer }) => {
               data.length > 0 && (
                 <>
                   <div className='table-responsive '>
-                    <table className='table table-sm hover bordered striped caption-top '>
+                    <table className='table table-striped table-hover caption-top table-sm '>
                       <caption>
                         {data && data.length} records were found
                       </caption>

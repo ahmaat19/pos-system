@@ -51,7 +51,7 @@ const CustomerBalance = () => {
     )
 
   return (
-    <div>
+    <div className='container'>
       <Head>
         <title>Customers by item summary report</title>
         <meta
@@ -75,7 +75,7 @@ const CustomerBalance = () => {
       ) : (
         <>
           <div className='table-responsive '>
-            <table className='table table-sm hover bordered striped caption-top '>
+            <table className='table table-striped table-hover caption-top table-sm '>
               <caption>{data ? data.length : 0} records were found</caption>
               <thead>
                 <tr>
@@ -117,7 +117,7 @@ const CustomerBalance = () => {
                 <tfoot>
                   <tr>
                     <th colSpan='2'>TOTAL</th>
-                    <th>{Number(totalQty).toFixed(2)}</th>
+                    <th>{Number(totalQty)}</th>
                     <th className='text-decoration'>
                       ${Number(totalPrice).toFixed(2)}
                     </th>
@@ -135,7 +135,7 @@ const CustomerBalance = () => {
             aria-labelledby='itemDetailsModalLabel'
             aria-hidden='true'
           >
-            <div className='modal-dialog modal-lg'>
+            <div className='modal-dialog modal-xl'>
               <div className='modal-content modal-background'>
                 <div className='modal-header'>
                   <h3 className='modal-title ' id='itemDetailsModalLabel'>
@@ -150,7 +150,7 @@ const CustomerBalance = () => {
                 </div>
                 <div className='modal-body'>
                   <div className='table-responsive '>
-                    <table className='table table-sm hover bordered striped caption-top '>
+                    <table className='table table-striped table-hover caption-top table-sm '>
                       <caption>
                         {dataItemDetails ? dataItemDetails.length : 0} records
                         were found
@@ -186,7 +186,7 @@ const CustomerBalance = () => {
                         <tfoot>
                           <tr>
                             <th colSpan='3'> TOTAL</th>
-                            <th>{Number(totalQtyDetails).toFixed(2)}</th>
+                            <th>{Number(totalQtyDetails)}</th>
                             <th className='text-decoration'>
                               ${Number(totalPriceDetails).toFixed(2)}
                             </th>

@@ -80,7 +80,7 @@ const SalesSeller = () => {
     )
 
   return (
-    <div>
+    <div className='container'>
       <Head>
         <title>Sales by item summary report</title>
         <meta
@@ -130,7 +130,7 @@ const SalesSeller = () => {
       ) : (
         <>
           <div className='table-responsive '>
-            <table className='table table-sm hover bordered striped caption-top '>
+            <table className='table table-striped table-hover caption-top table-sm '>
               <caption>{data ? data.length : 0} records were found</caption>
               <thead>
                 <tr>
@@ -172,8 +172,8 @@ const SalesSeller = () => {
                 <tfoot>
                   <tr>
                     <th>TOTAL</th>
-                    <th>{Number(totalQty).toFixed(2)}</th>
-                    <th className='text-decoration'>
+                    <th>{Number(totalQty)}</th>
+                    <th colSpan='2' className='text-decoration'>
                       ${Number(totalPrice).toFixed(2)}
                     </th>
                   </tr>
@@ -190,7 +190,7 @@ const SalesSeller = () => {
             aria-labelledby='itemDetailsModalLabel'
             aria-hidden='true'
           >
-            <div className='modal-dialog modal-lg'>
+            <div className='modal-dialog modal-xl'>
               <div className='modal-content modal-background'>
                 <div className='modal-header'>
                   <h3 className='modal-title ' id='itemDetailsModalLabel'>
@@ -205,7 +205,7 @@ const SalesSeller = () => {
                 </div>
                 <div className='modal-body'>
                   <div className='table-responsive '>
-                    <table className='table table-sm hover bordered striped caption-top '>
+                    <table className='table table-striped table-hover caption-top table-sm '>
                       <caption>
                         {dataItemDetails ? dataItemDetails.length : 0} records
                         were found
@@ -241,7 +241,7 @@ const SalesSeller = () => {
                         <tfoot>
                           <tr>
                             <th colSpan='3'> TOTAL</th>
-                            <th>{Number(totalQtyDetails).toFixed(2)}</th>
+                            <th>{Number(totalQtyDetails)}</th>
                             <th className='text-decoration'>
                               ${Number(totalPriceDetails).toFixed(2)}
                             </th>

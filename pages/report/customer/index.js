@@ -12,19 +12,21 @@ const Customers = () => {
     },
   ]
   return (
-    <div className='row g-1 mb-2'>
-      <Head>
-        <title>Customers Report</title>
-        <meta property='og:title' content='Customers Report' key='title' />
-      </Head>
+    <div className='container'>
+      <div className='row g-1 mb-2'>
+        <Head>
+          <title>Customers Report</title>
+          <meta property='og:title' content='Customers Report' key='title' />
+        </Head>
 
-      {menus.map((menu) => (
-        <div key={menu.path} className='col-lg-3 col-md-4 col-6'>
-          <Link href={`/report/customer/${menu.path}`}>
-            <a className={`btn btn-light form-control `}>{menu.name}</a>
-          </Link>
-        </div>
-      ))}
+        {menus.map((menu) => (
+          <div key={menu.path} className='col-lg-3 col-md-4 col-6 mx-auto'>
+            <Link href={`/report/customer/${menu.path}`}>
+              <a className={`btn btn-light form-control `}>{menu.name}</a>
+            </Link>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
