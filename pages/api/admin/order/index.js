@@ -113,20 +113,8 @@ handler.post(async (req, res) => {
     orderItems &&
     orderItems.length > 0 &&
     orderItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)
-  console.log(orderItems)
-  const due =
-    orderItems &&
-    orderItems.length > 0 &&
-    orderItems
-      .reduce(
-        (acc, item) =>
-          acc +
-          Number(item.qty) * Number(item.price) -
-          Number(discount) -
-          Number(paidAmount),
-        0
-      )
-      .toFixed(2)
+
+  const due = Number(totalPrice) - Number(paidAmount) - Number(discount)
 
   if (!customer) return res.status(400).send('Please select a customer')
   if (totalPrice < Number(discount) + Number(paidAmount))

@@ -16,50 +16,14 @@ handler.post(async (req, res) => {
     .sort({ createdAt: -1 })
     .populate('orderItems.product', 'name')
     .populate('orderItems.customer', ['name', 'mobile'])
+    .populate('customer', ['name', 'mobile'])
 
   const result =
     orders &&
     orders.length > 0 &&
-    orders.map(
-      (d) =>
-        Number(d.totalPrice) > Number(d.discount) + Number(d.paidAmount) &&
-        d.orderItems
-    )
+    orders.filter((d) => d.customer._id.toString() === customer.toString())
 
-  let cusArray = []
-  result &&
-    result.length > 0 &&
-    result.map((cus) => cus !== false && cusArray.push(...cus))
-
-  let newResult = []
-  cusArray &&
-    cusArray.length > 0 &&
-    cusArray.forEach((e) => {
-      let el = newResult.find(
-        (n) => n.customer.toString() === e.customer.toString()
-      )
-      if (el) {
-        el.qty += e.qty
-        el.price += e.price * e.qty
-      } else
-        newResult.push({
-          createdAt: e.createdAt,
-          _id: e._id,
-          product: e.product,
-          name: e.name,
-          category: e.category,
-          qty: e.qty,
-          price: Number(e.price) * Number(e.qty),
-          cost: e.cost,
-          customer: e.customer,
-        })
-    })
-
-  res
-    .status(200)
-    .json(
-      cusArray.filter((f) => f.customer._id.toString() === customer.toString())
-    )
+  res.status(200).json(result)
 })
 
 export default handler

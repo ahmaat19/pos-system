@@ -27,28 +27,20 @@ const CustomerBalance = () => {
       onSuccess: () => {},
     })
 
-  const totalQty =
-    data &&
-    data.length > 0 &&
-    data.reduce((acc, curr) => acc + Number(curr.qty), 0)
-
   const totalPrice =
     data &&
     data.length > 0 &&
-    data.reduce((acc, curr) => acc + Number(curr.price), 0)
+    data.reduce((acc, curr) => acc + Number(curr.due), 0)
 
-  const totalQtyDetails =
+  const totalDue =
     dataItemDetails &&
     dataItemDetails.length > 0 &&
-    dataItemDetails.reduce((acc, curr) => acc + Number(curr.qty), 0)
+    dataItemDetails.reduce((acc, curr) => acc + Number(curr.due), 0)
 
-  const totalPriceDetails =
+  const totalPaidAmount =
     dataItemDetails &&
     dataItemDetails.length > 0 &&
-    dataItemDetails.reduce(
-      (acc, curr) => acc + Number(curr.price) * Number(curr.qty),
-      0
-    )
+    dataItemDetails.reduce((acc, curr) => acc + Number(curr.paidAmount), 0)
 
   return (
     <div className='container'>
@@ -81,8 +73,7 @@ const CustomerBalance = () => {
                 <tr>
                   <th>CUSTOMER</th>
                   <th>MOBILE</th>
-                  <th>QUANTITY</th>
-                  <th>AMOUNT</th>
+                  <th>DUE AMOUNT</th>
                   <th>DETAILS</th>
                 </tr>
               </thead>
@@ -93,8 +84,7 @@ const CustomerBalance = () => {
                     <tr key={order._id}>
                       <td>{order.customer && order.customer.name}</td>
                       <td>{order.customer && order.customer.mobile}</td>
-                      <td>{order.qty}</td>
-                      <td>${Number(order.price).toFixed(2)}</td>
+                      <td>${Number(order.due).toFixed(2)}</td>
 
                       <td className='btn-group'>
                         <button
@@ -117,7 +107,6 @@ const CustomerBalance = () => {
                 <tfoot>
                   <tr>
                     <th colSpan='2'>TOTAL</th>
-                    <th>{Number(totalQty)}</th>
                     <th className='text-decoration'>
                       ${Number(totalPrice).toFixed(2)}
                     </th>
@@ -158,10 +147,10 @@ const CustomerBalance = () => {
                       <thead>
                         <tr>
                           <th>DATE & TIME</th>
+                          <th>INVOICE</th>
                           <th>CUSTOMER</th>
-                          <th>ITEM</th>
-                          <th>QUANTITY</th>
-                          <th>AMOUNT</th>
+                          <th>DUE AMOUNT</th>
+                          <th>PAID AMOUNT</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -170,15 +159,10 @@ const CustomerBalance = () => {
                           dataItemDetails.map((pro) => (
                             <tr key={pro._id}>
                               <td>{moment(pro.createdAt).format('llll')}</td>
+                              <td>{pro.invoice}</td>
                               <td>{pro.customer && pro.customer.name}</td>
-                              <td>{pro.name}</td>
-                              <td>{pro.qty}</td>
-                              <td>
-                                $
-                                {(Number(pro.price) * Number(pro.qty)).toFixed(
-                                  2
-                                )}
-                              </td>
+                              <td>${Number(pro.due).toFixed(2)}</td>
+                              <td>${Number(pro.paidAmount).toFixed(2)}</td>
                             </tr>
                           ))}
                       </tbody>
@@ -186,9 +170,11 @@ const CustomerBalance = () => {
                         <tfoot>
                           <tr>
                             <th colSpan='3'> TOTAL</th>
-                            <th>{Number(totalQtyDetails)}</th>
                             <th className='text-decoration'>
-                              ${Number(totalPriceDetails).toFixed(2)}
+                              ${Number(totalDue).toFixed(2)}
+                            </th>
+                            <th className='text-decoration'>
+                              ${Number(totalPaidAmount).toFixed(2)}
                             </th>
                           </tr>
                         </tfoot>
