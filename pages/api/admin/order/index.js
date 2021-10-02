@@ -3,6 +3,7 @@ import dbConnect from '../../../../utils/db'
 import Order from '../../../../models/Order'
 import { isAuth } from '../../../../utils/auth'
 import Product from '../../../../models/Product'
+import Transaction from '../../../../models/Transaction'
 
 const handler = nc()
 

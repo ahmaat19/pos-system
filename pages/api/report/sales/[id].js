@@ -18,19 +18,34 @@ handler.post(async (req, res) => {
 
   let orders = await Order.find({
     isDeleted: false,
-    'orderItems.seller': seller,
+    createdBy: seller,
     createdAt: { $gte: start, $lt: end },
   })
     .sort({ createdAt: -1 })
     .populate('orderItems.product', 'name')
     .populate('orderItems.seller', ['name'])
+    .populate('createdBy', ['name'])
+    .populate('customer', ['name', 'mobile'])
 
-  const result = orders && orders.length > 0 && orders.map((d) => d.orderItems)
+  const result =
+    orders &&
+    orders.length > 0 &&
+    orders.map((d) => ({
+      orderItems: d.orderItems,
+      due: d.totalPrice - d.discount - d.paidAmount,
+      _id: d._id,
+      seller: d.createdBy,
+      customer: d.customer,
+      invoice: d.invoice,
+      discount: d.discount,
+      paidAmount: d.paidAmount,
+      totalPrice: d.totalPrice,
+    }))
 
   let cusArray = []
   result &&
     result.length > 0 &&
-    result.map((cus) => cus !== false && cusArray.push(...cus))
+    result.map((cus) => cus !== false && cusArray.push(...cus.orderItems))
 
   let newResult = []
   cusArray &&
@@ -57,7 +72,7 @@ handler.post(async (req, res) => {
         })
     })
 
-  res.status(200).json(newResult)
+  res.status(200).json(orders)
 })
 
 export default handler
