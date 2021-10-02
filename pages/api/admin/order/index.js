@@ -59,6 +59,19 @@ handler.post(async (req, res) => {
     _id: orderItems.map((o) => o.product),
   })
 
+  for (let i = 0; i < products.length; i++) {
+    if (
+      products[i]._id.toString() === orderItems[i].product.toString() &&
+      Number(products[i].stock) < Number(orderItems[i].qty)
+    ) {
+      return res
+        .status(400)
+        .send(
+          'The quantity you are trying to order is not available in the store'
+        )
+    }
+  }
+
   const quantityMap = orderItems.reduce(
     (quantities, { product, qty }) => ({
       ...quantities,

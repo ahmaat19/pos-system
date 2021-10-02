@@ -43,8 +43,6 @@ handler.post(async (req, res) => {
     finalResult.length > 0 &&
     finalResult.map((pro) => productList.push(...pro))
 
-  console.log(productList)
-
   res.status(200).json(productList)
 })
 
