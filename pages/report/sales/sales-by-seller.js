@@ -3,10 +3,7 @@ import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import withAuth from '../../../HOC/withAuth'
 import { useMutation, useQuery } from 'react-query'
-import {
-  searchSalesBySeller,
-  searchSalesBySellerDetails,
-} from '../../../api/sales-report'
+import { searchSalesBySeller } from '../../../api/sales-report'
 import { getAllUsers } from '../../../api/users'
 import Loader from 'react-loader-spinner'
 import Message from '../../../components/Message'
@@ -42,16 +39,6 @@ const SalesSeller = () => {
   const { data: usersData } = useQuery('users', () => getAllUsers(), {
     retry: 0,
   })
-
-  const { mutateAsync: mutateAsyncItemDetails, data: dataItemDetails } =
-    useMutation(
-      ['search-sales-by-seller-details'],
-      searchSalesBySellerDetails,
-      {
-        retry: 0,
-        onSuccess: () => {},
-      }
-    )
 
   const submitHandler = (data) => {
     mutateAsync({ startDate, endDate, seller: data.seller })

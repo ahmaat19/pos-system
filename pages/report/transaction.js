@@ -6,7 +6,6 @@ import { useMutation } from 'react-query'
 import { searchTransactions } from '../../api/transaction-report'
 import Loader from 'react-loader-spinner'
 import Message from '../../components/Message'
-import { FaInfoCircle } from 'react-icons/fa'
 import moment from 'moment'
 import { useForm } from 'react-hook-form'
 
@@ -30,16 +29,6 @@ const Transaction = () => {
   const submitHandler = () => {
     mutateAsync({ startDate, endDate })
   }
-
-  const totalDue =
-    data &&
-    data.length > 0 &&
-    data.reduce((acc, curr) => acc + (acc + Number(curr.due)), 0)
-
-  const totalPaidAmount =
-    data &&
-    data.length > 0 &&
-    data.reduce((acc, curr) => acc + (acc + Number(curr.paidAmount)), 0)
 
   return (
     <div className='container'>

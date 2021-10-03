@@ -3,10 +3,7 @@ import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import withAuth from '../../../HOC/withAuth'
 import { useMutation } from 'react-query'
-import {
-  searchSalesBySingleSeller,
-  searchSalesBySellerSingleDetails,
-} from '../../../api/sales-report'
+import { searchSalesBySingleSeller } from '../../../api/sales-report'
 import Loader from 'react-loader-spinner'
 import Message from '../../../components/Message'
 import { FaInfoCircle, FaPrint } from 'react-icons/fa'
