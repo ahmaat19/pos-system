@@ -16,8 +16,13 @@ handler.post(async (req, res) => {
   if (orderObj) {
     if (orderObj.due > 0 && orderObj.due >= Number(receipt)) {
       orderObj.due = orderObj.due - Number(receipt)
+      orderObj.paidAmount = orderObj.paidAmount + Number(receipt)
       const modified = await orderObj.save()
       if (modified) {
+        const allDue = await Transaction.findOne({
+          customer: orderObj.customer,
+        }).sort({ createdAt: -1 })
+
         await Transaction.create({
           order: orderObj._id,
           isActive: true,
@@ -27,7 +32,7 @@ handler.post(async (req, res) => {
           discount: orderObj.discount,
           paidAmount: receipt,
           totalPrice: orderObj.totalPrice,
-          due: orderObj.due,
+          due: Number(allDue.due) - Number(receipt),
           createdBy: req.user.id,
         })
         res.status(200).json(modified)

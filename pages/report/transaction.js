@@ -34,10 +34,12 @@ const Transaction = () => {
   const totalDue =
     data &&
     data.length > 0 &&
-    data.reduce(
-      (acc, curr) => acc + (Number(curr.due) - Number(curr.paidAmount)),
-      0
-    )
+    data.reduce((acc, curr) => acc + (acc + Number(curr.due)), 0)
+
+  const totalPaidAmount =
+    data &&
+    data.length > 0 &&
+    data.reduce((acc, curr) => acc + (acc + Number(curr.paidAmount)), 0)
 
   return (
     <div className='container'>
@@ -107,7 +109,7 @@ const Transaction = () => {
                         <td>${Number(d.paidAmount).toFixed(2)}</td>
                         <td>${Number(d.due).toFixed(2)}</td>
 
-                        {/* <td>
+                        {/* <td> 
                           <button
                             className='btn btn-success btn-sm'
                             data-bs-toggle='modal'

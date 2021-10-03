@@ -149,6 +149,9 @@ handler.post(async (req, res) => {
   })
 
   if (createObj) {
+    const allDue = await Transaction.find({ customer: createObj.customer })
+    const totalDue = allDue.reduce((acc, item) => acc + item.due, 0).toFixed(2)
+
     await Transaction.create({
       order: createObj._id,
       isActive: true,
@@ -158,7 +161,7 @@ handler.post(async (req, res) => {
       discount,
       paidAmount,
       totalPrice,
-      due,
+      due: allDue.length > 0 ? Number(totalDue) + Number(due) : Number(due),
       createdBy,
     })
     res.status(201).json({ status: 'success' })

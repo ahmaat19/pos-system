@@ -60,8 +60,8 @@ const Receipt = () => {
   return (
     <div className='container'>
       <Head>
-        <title>Transaction</title>
-        <meta property='og:title' content='Transaction' key='title' />
+        <title>Receipt</title>
+        <meta property='og:title' content='Receipt' key='title' />
       </Head>{' '}
       {isSuccessReceipt && (
         <Message variant='success'>Receipt has been done successfully.</Message>
