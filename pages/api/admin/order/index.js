@@ -149,6 +149,19 @@ handler.post(async (req, res) => {
   })
 
   if (createObj) {
+    await Transaction.create({
+      order: createObj._id,
+      isActive: true,
+      invoice: Number(invoice) + 1,
+      customer,
+      type: 'Payment',
+      discount,
+      paidAmount,
+      totalPrice,
+      due,
+      orderItems: custom,
+      createdBy,
+    })
     res.status(201).json({ status: 'success' })
   } else {
     return res.status(400).send('Invalid data')

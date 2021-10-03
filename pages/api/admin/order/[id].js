@@ -3,6 +3,7 @@ import dbConnect from '../../../../utils/db'
 import Order from '../../../../models/Order'
 import Product from '../../../../models/Product'
 import { isAuth } from '../../../../utils/auth'
+import Transaction from '../../../../models/Transaction'
 
 const handler = nc()
 handler.use(isAuth)
@@ -88,6 +89,11 @@ handler.delete(async (req, res) => {
     }
 
     obj.isDeleted = true
+    const trans = await Transaction.findOne({ order: _id })
+    trans.isDeleted = true
+    trans.deletedBy = req.user.id
+    trans.deletedAt = Date.now()
+    await trans.save()
     await obj.save()
 
     res.json({ status: 'success' })
