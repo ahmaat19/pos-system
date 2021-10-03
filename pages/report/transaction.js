@@ -31,6 +31,14 @@ const Transaction = () => {
     mutateAsync({ startDate, endDate })
   }
 
+  const totalDue =
+    data &&
+    data.length > 0 &&
+    data.reduce(
+      (acc, curr) => acc + (Number(curr.due) - Number(curr.paidAmount)),
+      0
+    )
+
   return (
     <div className='container'>
       <Head>
@@ -80,7 +88,7 @@ const Transaction = () => {
                     <th>CREATED BY</th>
                     <th>CUSTOMER</th>
                     <th>TYPE</th>
-                    {/* <th>TOTAL PRICE</th> */}
+                    <th>INVOICE</th>
                     <th>PAID AMOUNT</th>
                     <th>DUE BALANCE</th>
                     {/* <th>DETAILS</th> */}
@@ -94,6 +102,7 @@ const Transaction = () => {
                         <td>{d.createdBy && d.createdBy.name}</td>
                         <td>{d.customer && d.customer.name}</td>
                         <td>{d.type}</td>
+                        <td>{d.invoice}</td>
                         {/* <td>${Number(d.totalPrice).toFixed(2)}</td> */}
                         <td>${Number(d.paidAmount).toFixed(2)}</td>
                         <td>${Number(d.due).toFixed(2)}</td>

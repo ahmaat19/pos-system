@@ -17,7 +17,7 @@ handler.post(async (req, res) => {
   const transactions = await Transaction.find({
     createdAt: { $gte: start, $lt: end },
   })
-    .sort({ createdAt: -1 })
+    .sort({ createdAt: 1 })
     .populate('customer', ['name', 'mobile'])
     .populate('createdBy', 'name')
     .populate('deletedBy', 'name')

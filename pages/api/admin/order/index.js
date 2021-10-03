@@ -152,14 +152,13 @@ handler.post(async (req, res) => {
     await Transaction.create({
       order: createObj._id,
       isActive: true,
-      invoice: Number(invoice) + 1,
+      invoice: createObj.invoice,
       customer,
-      type: 'Payment',
+      type: 'receipt',
       discount,
       paidAmount,
       totalPrice,
       due,
-      orderItems: custom,
       createdBy,
     })
     res.status(201).json({ status: 'success' })
