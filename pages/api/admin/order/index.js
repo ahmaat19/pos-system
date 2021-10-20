@@ -25,6 +25,7 @@ handler.get(async (req, res) => {
     .sort({ createdAt: -1 })
     .populate('customer', ['name', 'mobile'])
     .populate('orderItems.product', 'picture')
+    .populate('createdBy', 'name')
 
   const result = await query
 

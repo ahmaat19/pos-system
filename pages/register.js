@@ -27,24 +27,27 @@ const Register = () => {
     },
   })
 
-  const { isLoading, isError, error, isSuccess, mutateAsync } = useMutation(
-    'registerUser',
-    registerUser,
-    {
-      retry: 0,
-      onSuccess: () => {
-        reset()
-        router.push('/')
-      },
-    }
-  )
+  const {
+    isLoading,
+    isError,
+    error,
+    isSuccess,
+    // mutateAsync
+  } = useMutation('registerUser', registerUser, {
+    retry: 0,
+    onSuccess: () => {
+      reset()
+      router.push('/')
+    },
+  })
 
   useEffect(() => {
     customLocalStorage() && customLocalStorage().userInfo && router.push('/')
   }, [router])
 
   const submitHandler = (data) => {
-    mutateAsync(data)
+    console.log('an authorized action', data)
+    // mutateAsync(data)
   }
   return (
     <FormContainer>

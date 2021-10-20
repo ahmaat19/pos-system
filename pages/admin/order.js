@@ -13,6 +13,7 @@ import { useReactToPrint } from 'react-to-print'
 import { confirmAlert } from 'react-confirm-alert'
 import { Confirm } from '../../components/Confirm'
 import { useForm } from 'react-hook-form'
+import Invoice from '../../components/Invoice'
 
 const Orders = () => {
   const [page, setPage] = useState(1)
@@ -30,7 +31,7 @@ const Orders = () => {
   const componentRef = useRef()
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
-    documentTitle: 'Clearance',
+    documentTitle: 'Invoice',
   })
 
   const [cartItems, setCartItems] = useState('')
@@ -328,11 +329,11 @@ const Orders = () => {
         aria-labelledby='printOrderModalLabel'
         aria-hidden='true'
       >
-        <div className='modal-dialog'>
+        <div className='modal-dialog modal-lg'>
           <div className='modal-content modal-background'>
             <div className='modal-header'>
               <h3 className='modal-title ' id='printOrderModalLabel'>
-                Print Preview
+                Print Previewss
               </h3>
               <button
                 type='button'
@@ -357,83 +358,7 @@ const Orders = () => {
               ) : (
                 <>
                   <div className='card' ref={componentRef}>
-                    <ul className='list-group list-group-flush'>
-                      <li className='list-group-item mt-1 text-center'>
-                        <span className='fw-bold'>INVOICE ID: </span>
-                        {cartItems && cartItems._id}
-                      </li>
-                      {cartItems.orderItems &&
-                        cartItems.orderItems.length > 0 &&
-                        cartItems.orderItems.map((item) => (
-                          <li key={item._id} className='list-group-item mt-1'>
-                            <div className='d-flex justify-content-between'>
-                              <button
-                                type='button'
-                                className='btn position-relative bg-transparent shadow-sm py-0 px-1 rounded-3'
-                              >
-                                {item.product && item.product.picture && (
-                                  <Image
-                                    width='35'
-                                    height='35'
-                                    priority
-                                    src={
-                                      item.product.picture &&
-                                      item.product.picture.picturePath
-                                    }
-                                    alt={
-                                      item.product.picture &&
-                                      item.product.picture.pictureName
-                                    }
-                                    className='img-fluid rounded-pill my-auto '
-                                  />
-                                )}
-                                <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill'>
-                                  x{item.qty}{' '}
-                                </span>
-                              </button>
-                              <div className='text-center'>{item.name}</div>
-                              <span className='text-primary fw-bold'>
-                                $
-                                {(
-                                  Number(item.price) * Number(item.qty)
-                                ).toFixed(2)}
-                              </span>
-                            </div>
-                          </li>
-                        ))}
-
-                      <>
-                        <li className='list-group-item'>
-                          <div className='fw-bold d-flex justify-content-between'>
-                            <h6>Subtotal</h6>{' '}
-                            <h6>
-                              {' '}
-                              $
-                              {Number(
-                                subTotal(cartItems && cartItems.orderItems)
-                              )}
-                            </h6>
-                          </div>
-                          <div className='fw-bold d-flex justify-content-between'>
-                            <h6>Discount</h6>{' '}
-                            <h6> ${cartItems && cartItems.discount}</h6>
-                          </div>
-                          <div className='d-flex justify-content-between fw-bold text-danger'>
-                            <h6>Due</h6>{' '}
-                            <h6>
-                              $
-                              {(
-                                Number(
-                                  subTotal(cartItems && cartItems.orderItems)
-                                ) -
-                                Number(cartItems.discount) -
-                                Number(cartItems.paidAmount)
-                              ).toFixed(2)}
-                            </h6>
-                          </div>
-                        </li>
-                      </>
-                    </ul>
+                    <Invoice cartItems={cartItems} />
                   </div>
                 </>
               )}

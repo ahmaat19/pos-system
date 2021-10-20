@@ -12,6 +12,7 @@ import moment from 'moment'
 import { dynamicInputSelect } from '../../../utils/dynamicForm'
 import { useForm } from 'react-hook-form'
 import { useReactToPrint } from 'react-to-print'
+import Invoice from '../../../components/Invoice'
 
 const SalesSeller = () => {
   const [startDate, setStartDate] = useState(Date.now())
@@ -62,13 +63,13 @@ const SalesSeller = () => {
     data.length > 0 &&
     data.reduce((acc, curr) => acc + Number(curr.paidAmount), 0)
 
-  const subTotal = (items) => {
-    return (
-      items &&
-      items.length > 0 &&
-      items.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)
-    )
-  }
+  // const subTotal = (items) => {
+  //   return (
+  //     items &&
+  //     items.length > 0 &&
+  //     items.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)
+  //   )
+  // }
 
   return (
     <div className='container'>
@@ -182,67 +183,7 @@ const SalesSeller = () => {
                 </div>
                 <div className='modal-body'>
                   <div className='card' ref={componentRef}>
-                    <ul className='list-group list-group-flush'>
-                      <li className='list-group-item mt-1 text-center'>
-                        <span className='fw-bold'>INVOICE ID: </span>
-                        {printItems && printItems.invoice}
-                      </li>
-                      {printItems.orderItems &&
-                        printItems.orderItems.length > 0 &&
-                        printItems.orderItems.map((item) => (
-                          <li key={item._id} className='list-group-item mt-1'>
-                            <div className='d-flex justify-content-between'>
-                              <button
-                                type='button'
-                                className='btn position-relative bg-transparent shadow-sm py-0 px-1 rounded-3'
-                              >
-                                <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill'>
-                                  x{item.qty}{' '}
-                                </span>
-                              </button>
-                              <div className='text-center'>{item.name}</div>
-                              <span className='text-primary fw-bold'>
-                                $
-                                {(
-                                  Number(item.price) * Number(item.qty)
-                                ).toFixed(2)}
-                              </span>
-                            </div>
-                          </li>
-                        ))}
-
-                      <>
-                        <li className='list-group-item'>
-                          <div className='fw-bold d-flex justify-content-between'>
-                            <h6>Subtotal</h6>{' '}
-                            <h6>
-                              {' '}
-                              $
-                              {Number(
-                                subTotal(printItems && printItems.orderItems)
-                              )}
-                            </h6>
-                          </div>
-                          <div className='fw-bold d-flex justify-content-between'>
-                            <h6>Discount</h6>{' '}
-                            <h6> ${printItems && printItems.discount}</h6>
-                          </div>
-                          <div className='d-flex justify-content-between fw-bold text-danger'>
-                            <h6>Due</h6>{' '}
-                            <h6>
-                              $
-                              {(
-                                Number(
-                                  subTotal(printItems && printItems.orderItems)
-                                ) -
-                                Number(printItems.discount) -
-                                Number(printItems.paidAmount)
-                              ).toFixed(2)}
-                            </h6>
-                          </div>
-                        </li>
-                      </>
-                    </ul>
+                    <Invoice cartItems={printItems} />
                   </div>
 
                   <div className='modal-footer'>

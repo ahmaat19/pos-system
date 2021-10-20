@@ -61,9 +61,9 @@ nav {
   color: var(--white-color) !important;
 }
 
-label {
+/* label {
   opacity: 0.5;
-}
+} */
 
 .dropdown-menu,
 .alert,

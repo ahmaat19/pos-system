@@ -45,7 +45,7 @@ const SalesItem = () => {
   const totalPrice =
     data &&
     data.length > 0 &&
-    data.reduce((acc, curr) => acc + Number(curr.price), 0)
+    data.reduce((acc, curr) => acc + Number(curr.price) * Number(curr.qty), 0)
 
   const totalQtyDetails =
     dataItemDetails &&
@@ -140,7 +140,7 @@ const SalesItem = () => {
                     <th>TOTAL</th>
                     <th>{Number(totalQty)}</th>
                     <th className='text-decoration'>
-                      ${(Number(totalPrice) * Number(totalQty)).toFixed(2)}
+                      ${Number(totalPrice).toFixed(2)}
                     </th>
                   </tr>
                 </tfoot>
