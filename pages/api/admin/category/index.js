@@ -5,7 +5,6 @@ import { isAdmin, isAuth } from '../../../../utils/auth'
 
 const handler = nc()
 
-handler.use(isAuth)
 handler.get(async (req, res) => {
   await dbConnect()
 

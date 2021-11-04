@@ -422,28 +422,14 @@ const Orders = () => {
                   data.data.map((order) => (
                     <tr
                       key={order._id}
-                      className={
-                        Number(order.totalPrice) -
-                          Number(order.discount) -
-                          Number(order.paidAmount) >
-                        0
-                          ? 'text-danger'
-                          : ''
-                      }
+                      className={Number(order.due) > 0 ? 'text-danger' : ''}
                     >
                       <td>{order.customer.name}</td>
                       <td>{order.customer.mobile}</td>
                       <td>${order.totalPrice.toFixed(2)}</td>
                       <td>${order.paidAmount.toFixed(2)}</td>
                       <td>${order.discount.toFixed(2)}</td>
-                      <td>
-                        $
-                        {(
-                          Number(order.totalPrice) -
-                          Number(order.discount) -
-                          Number(order.paidAmount)
-                        ).toFixed(2)}
-                      </td>
+                      <td>${Number(order.due).toFixed(2)}</td>
 
                       <td className='btn-group'>
                         <button

@@ -100,6 +100,8 @@ const SalesItem = () => {
                 <tr>
                   <th>ITEM</th>
                   <th>QUANTITY</th>
+                  <th>COST</th>
+                  <th>PRICE</th>
                   <th>AMOUNT</th>
                   <th>DETAILS</th>
                 </tr>
@@ -110,9 +112,20 @@ const SalesItem = () => {
                   data.map((order) => (
                     <tr key={order._id}>
                       <td>{order.name}</td>
+                      {console.log(order)}
                       <td>{order.qty}</td>
                       <td>
+                        ${(Number(order.cost) * Number(order.qty)).toFixed(2)}
+                      </td>
+                      <td>
                         ${(Number(order.price) * Number(order.qty)).toFixed(2)}
+                      </td>
+                      <td>
+                        $
+                        {(
+                          Number(order.price) * Number(order.qty) -
+                          Number(order.cost) * Number(order.qty)
+                        ).toFixed(2)}
                       </td>
 
                       <td className='btn-group'>

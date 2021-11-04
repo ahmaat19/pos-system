@@ -8,6 +8,12 @@ export const routes = () => {
     },
     {
       isActive: true,
+      menu: 'Normal',
+      path: '/dashboard',
+      name: 'Dashboard',
+    },
+    {
+      isActive: true,
       menu: 'Admin',
       path: '/admin/logon',
       name: 'User Logs',
@@ -35,6 +41,72 @@ export const routes = () => {
       menu: 'Profile',
       path: '/profile',
       name: 'Profile',
+    },
+    {
+      isActive: true,
+      menu: 'Admin',
+      path: '/admin/product',
+      name: 'Product',
+    },
+    {
+      isActive: true,
+      menu: 'Admin',
+      path: '/admin/category',
+      name: 'Category',
+    },
+    {
+      isActive: true,
+      menu: 'Admin',
+      path: '/admin/order',
+      name: 'Order',
+    },
+    {
+      isActive: true,
+      menu: 'Report',
+      path: '/report/sales',
+      name: 'Sales',
+    },
+    {
+      isActive: true,
+      menu: 'Report',
+      path: '/report/customer',
+      name: 'Customer',
+    },
+    {
+      isActive: true,
+      menu: 'Hidden',
+      path: '/report/sales/sales-by-item-summary',
+      name: 'Sales by item summary',
+    },
+    {
+      isActive: true,
+      menu: 'Hidden',
+      path: '/report/customer/customer-balance',
+      name: 'Balance',
+    },
+    {
+      isActive: true,
+      menu: 'Hidden',
+      path: '/report/sales/sales-by-seller',
+      name: 'Sales by seller',
+    },
+    {
+      isActive: true,
+      menu: 'Hidden',
+      path: '/report/sales/sales-by-single-seller',
+      name: 'Sales by single seller',
+    },
+    {
+      isActive: true,
+      menu: 'Report',
+      path: '/report/transaction',
+      name: 'Transaction',
+    },
+    {
+      isActive: true,
+      menu: 'Normal',
+      path: '/receipt',
+      name: 'Receipt',
     },
   ]
 }

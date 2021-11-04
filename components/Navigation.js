@@ -4,12 +4,15 @@ import {
   FaCog,
   FaUserCircle,
   FaSignInAlt,
-  FaUserPlus,
   FaPowerOff,
   FaChartBar,
 } from 'react-icons/fa'
 import { logout } from '../api/users'
-import { useMutation } from 'react-query'
+// import { getCategories } from '../api/category'
+import {
+  useMutation,
+  // useQuery
+} from 'react-query'
 import { useRouter } from 'next/router'
 import { customLocalStorage } from '../utils/customLocalStorage'
 import { Access, UnlockAccess } from '../utils/UnlockAccess'
@@ -23,6 +26,10 @@ const Navigation = () => {
   const logoutHandler = () => {
     mutateAsync({})
   }
+
+  // const { data: categories } = useQuery('categories', () => getCategories(), {
+  //   retry: 0,
+  // })
 
   const userInfo =
     typeof window !== 'undefined' && localStorage.getItem('userInfo')
@@ -41,13 +48,34 @@ const Navigation = () => {
     return (
       <>
         <ul className='navbar-nav ms-auto'>
-          <li className='nav-item'>
-            <Link href='/register'>
-              <a className='nav-link active' aria-current='page'>
-                <FaUserPlus className='mb-1' /> Register
-              </a>
-            </Link>
-          </li>
+          {/* <li className='nav-item dropdown'>
+            <a
+              className='nav-link dropdown-toggle'
+              href='#'
+              id='navbarDropdownMenuLink'
+              role='button'
+              data-bs-toggle='dropdown'
+              aria-expanded='false'
+            >
+              Products
+            </a>
+            <ul
+              className='dropdown-menu border-0'
+              aria-labelledby='navbarDropdownMenuLink'
+            >
+              {categories &&
+                categories.map((cat) => (
+                  <li key={cat._id}>
+                    <Link href={cat._id}>
+                      <a className='dropdown-item'>{cat.name}</a>
+                    </Link>
+                  </li>
+                ))}
+            </ul>
+          </li> */}
+          {/* </ul>
+
+        <ul className='navbar-nav ms-auto'> */}
           <li className='nav-item'>
             <Link href='/login'>
               <a className='nav-link active' aria-current='page'>
@@ -199,7 +227,7 @@ const Navigation = () => {
         </span> */}
 
         <Link href='/'>
-          <a className='navbar-brand'>POS</a>
+          <a className='navbar-brand'>Ligo Medical</a>
         </Link>
 
         <button

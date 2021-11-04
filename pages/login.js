@@ -12,7 +12,7 @@ import { inputEmail, inputPassword } from '../utils/dynamicForm'
 
 const Login = () => {
   const router = useRouter()
-  const pathName = router.query.next || '/'
+  const pathName = router.query.next || '/dashboard'
   const {
     register,
     handleSubmit,
@@ -68,10 +68,6 @@ const Login = () => {
             'Sign In'
           )}
         </button>
-
-        <Link href='/register' type='submit'>
-          <a className='btn btn-outline-primary form-control mt-2'> Register</a>
-        </Link>
       </form>
       <div className='row pt-3'>
         <div className='col'>

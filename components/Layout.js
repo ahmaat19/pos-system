@@ -11,7 +11,7 @@ export default function Layout({ children }) {
       </Head>
       <Navigation />
       <Canvas />
-      <div className='container-fluid py-3'>{children}</div>
+      <div className=''>{children}</div>
     </>
   )
 }
