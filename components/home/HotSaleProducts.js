@@ -86,7 +86,7 @@ const HotSaleProducts = () => {
     },
     {
       _id: 14,
-      name: 'Cheap Disposable Orange Cap Insulin Syringe With needle',
+      name: 'Insulin Syringe With needle',
       image: image14,
     },
     {
@@ -96,7 +96,7 @@ const HotSaleProducts = () => {
     },
     {
       _id: 16,
-      name: 'Factory price medical sterile disposable syringe with needle',
+      name: 'Medical sterile disposable syringe with needle',
       image: image16,
     },
     {

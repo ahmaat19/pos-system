@@ -77,6 +77,20 @@ const Navigation = () => {
 
         <ul className='navbar-nav ms-auto'> */}
           <li className='nav-item'>
+            <Link href='/about'>
+              <a className='nav-link active' aria-current='page'>
+                About Us
+              </a>
+            </Link>
+          </li>
+          <li className='nav-item'>
+            <Link href='/contact'>
+              <a className='nav-link active' aria-current='page'>
+                Contact Us
+              </a>
+            </Link>
+          </li>
+          <li className='nav-item'>
             <Link href='/login'>
               <a className='nav-link active' aria-current='page'>
                 <FaSignInAlt className='mb-1' /> Login
