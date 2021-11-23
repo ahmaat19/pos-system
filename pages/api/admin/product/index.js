@@ -9,7 +9,6 @@ export const config = { api: { bodyParser: false } }
 const handler = nc()
 handler.use(fileUpload())
 
-handler.use(isAuth)
 handler.get(async (req, res) => {
   await dbConnect()
 
@@ -20,7 +19,7 @@ handler.get(async (req, res) => {
   res.send(obj)
 })
 
-handler.use(isAdmin)
+handler.use(isAdmin, isAuth)
 handler.post(async (req, res) => {
   await dbConnect()
   const { isActive, category, price, unit, stock, cost } = req.body
@@ -61,21 +60,7 @@ handler.post(async (req, res) => {
       }
     }
   } else {
-    const createObj = await Product.create({
-      isActive,
-      category,
-      price,
-      stock,
-      unit,
-      cost,
-      name,
-    })
-
-    if (createObj) {
-      res.status(201).json({ status: 'success' })
-    } else {
-      return res.status(400).send('Invalid data')
-    }
+    return res.status(400).send('Please upload a picture')
   }
 })
 

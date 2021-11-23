@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import {
   FaCog,
   FaUserCircle,
@@ -241,7 +242,11 @@ const Navigation = () => {
         </span> */}
 
         <Link href='/'>
-          <a className='navbar-brand'>Ligo Medical</a>
+          {/* <a className='navbar-brand'>Ligo Medical</a> */}
+          <a className='navbar-brand align-items-center d-flex'>
+            <Image src='/logo.png' alt='logo' width='40' height='40' /> Ligo
+            Medical
+          </a>
         </Link>
 
         <button

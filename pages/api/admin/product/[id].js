@@ -28,17 +28,18 @@ handler.put(async (req, res) => {
     })
     if (exist.length === 0) {
       if (picture) {
-        if (obj && obj.picture) {
-          deleteFile({
-            pathName: obj.picture.picturePath,
-          })
-        }
-
         const profile = await upload({
           fileName: picture,
           fileType: 'image',
           pathName: 'product',
         })
+        if (profile) {
+          if (obj && obj.picture) {
+            deleteFile({
+              pathName: obj.picture.pictureName,
+            })
+          }
+        }
         obj.isActive = isActive
         obj.category = category
         obj.price = price
@@ -83,7 +84,7 @@ handler.delete(async (req, res) => {
   } else {
     if (obj.picture) {
       deleteFile({
-        pathName: obj.picture.picturePath,
+        pathName: obj.picture.pictureName,
       })
     }
 
