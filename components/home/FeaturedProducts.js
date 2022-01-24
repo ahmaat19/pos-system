@@ -1,8 +1,5 @@
 import React from 'react'
 import Image from 'next/image'
-import image1 from '../../images/featuredProducts/image1.webp'
-import image2 from '../../images/featuredProducts/image2.webp'
-import image4 from '../../images/featuredProducts/image4.webp'
 import Message from '../Message'
 import Loader from 'react-loader-spinner'
 import { getProducts } from '../../api/product'
