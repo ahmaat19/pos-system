@@ -102,3 +102,21 @@ main {
 .card .bg-primary {
   background-color: var(--primary-color) !important;
 }
+
+/* CopyRight */
+#watermark {
+  position: fixed;
+  bottom: 70px;
+  right: 55px;
+  z-index: 999;
+}
+#watermark::after {
+  position: absolute;
+  background-image: url('/w-logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 80px;
+  height: 22px;
+  content: ' ';
+  transform: rotate(-90deg);
+}
